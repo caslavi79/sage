@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>history.scrollRestoration='manual';window.scrollTo(0,0);</script>
 <title>Sage Therapeutics | Therapeutic Massage & Bodywork in Old Colorado City</title>
 <meta name="description" content="Custom therapeutic massage and bodywork in Old Colorado City, Colorado Springs. Personalized healing sessions with Liz Childress, LMT — cupping, gua sha, hot stone, prenatal massage and more.">
 <meta name="keywords" content="massage therapy, therapeutic massage, Old Colorado City, Colorado Springs, cupping therapy, gua sha, hot stone massage, prenatal massage, bodywork, LMT, Liz Childress">
@@ -80,6 +81,40 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 
 /* ══════════════════════════════════════
+   LOGO SPLASH ANIMATION
+   ══════════════════════════════════════ */
+
+/* Layer 1: green background — fades out independently */
+#splashBg {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  background: var(--sage);
+  pointer-events: none;
+}
+
+/* Layer 2: logo — floats on top, flies to nav */
+#splashLogo {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+#splashLogo img {
+  width: 55vmin;
+  height: 55vmin;
+  object-fit: contain;
+  transform-origin: center center;
+}
+
+/* hide nav logo until splash lands */
+.nav-logo img { opacity: 0; }
+
+/* ══════════════════════════════════════
    NAVIGATION
    ══════════════════════════════════════ */
 nav {
@@ -118,6 +153,7 @@ nav.scrolled {
 nav.scrolled .nav-logo img {
   width: 38px;
   height: 38px;
+  filter: brightness(0) opacity(0.75);
 }
 
 .nav-logo span {
@@ -241,9 +277,9 @@ nav.scrolled .nav-toggle span { background: var(--text); }
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgba(42, 52, 35, 0.35) 0%,
-    rgba(42, 52, 35, 0.25) 40%,
-    rgba(42, 52, 35, 0.5) 100%
+    rgba(42, 52, 35, 0.6) 0%,
+    rgba(42, 52, 35, 0.5) 40%,
+    rgba(42, 52, 35, 0.7) 100%
   );
 }
 
@@ -263,20 +299,22 @@ nav.scrolled .nav-toggle span { background: var(--text); }
   line-height: 1.15;
   letter-spacing: 0.02em;
   margin-bottom: 1.25rem;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.4);
   opacity: 0;
   transform: translateY(20px);
-  animation: heroFade 1s ease 0.3s forwards;
+  animation: heroFade 1s ease 2.1s forwards;
 }
 
 .hero-content p {
   font-size: clamp(1rem, 1.5vw, 1.15rem);
   font-weight: 300;
   letter-spacing: 0.03em;
-  color: rgba(255,255,255,0.85);
+  color: #fff;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.6);
   line-height: 1.8;
   opacity: 0;
   transform: translateY(20px);
-  animation: heroFade 1s ease 0.6s forwards;
+  animation: heroFade 1s ease 2.4s forwards;
 }
 
 .hero-divider {
@@ -285,7 +323,7 @@ nav.scrolled .nav-toggle span { background: var(--text); }
   background: rgba(255,255,255,0.4);
   margin: 1.75rem auto;
   opacity: 0;
-  animation: heroFade 1s ease 0.5s forwards;
+  animation: heroFade 1s ease 2.25s forwards;
 }
 
 @keyframes heroFade {
@@ -306,7 +344,7 @@ nav.scrolled .nav-toggle span { background: var(--text); }
   font-size: 0.7rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  animation: heroFade 1s ease 1s forwards;
+  animation: heroFade 1s ease 2.8s forwards;
   opacity: 0;
 }
 
@@ -484,17 +522,20 @@ section {
 }
 
 .service-item {
+  border-bottom: 1px solid var(--sand-light);
+  cursor: pointer;
+}
+
+.service-item:first-child {
+  border-top: 1px solid var(--sand-light);
+}
+
+.service-header {
   display: grid;
   grid-template-columns: 1fr auto auto;
   align-items: center;
   gap: 2rem;
   padding: 1.75rem 0;
-  border-bottom: 1px solid var(--sand-light);
-  transition: background 0.3s ease;
-}
-
-.service-item:first-child {
-  border-top: 1px solid var(--sand-light);
 }
 
 .service-name {
@@ -528,6 +569,80 @@ section {
   color: var(--sage-dark);
   min-width: 80px;
   text-align: right;
+}
+
+.service-details {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.4s ease;
+  padding: 0 0;
+}
+
+.service-item.open .service-details {
+  max-height: 300px;
+  padding: 0 0 1.75rem 0;
+}
+
+.service-details ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.25rem 0;
+}
+
+.service-details ul li {
+  font-size: 0.88rem;
+  font-weight: 300;
+  color: var(--text-light);
+  line-height: 1.7;
+  padding-left: 1rem;
+  position: relative;
+}
+
+.service-details ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--sage);
+}
+
+.service-book {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--sage-dark);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  letter-spacing: 0.02em;
+}
+
+.service-book::after {
+  content: ' \2192';
+  font-size: 0.9em;
+}
+
+.service-special {
+  background: linear-gradient(135deg, rgba(143,156,120,0.06), rgba(143,156,120,0.12));
+  padding: 0 1.5rem;
+  border-radius: 6px;
+  border-bottom: 1px solid rgba(143,156,120,0.25);
+}
+
+.service-special-tag {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--sage-dark);
+  background: rgba(143,156,120,0.18);
+  padding: 0.2rem 0.6rem;
+  border-radius: 3px;
+  margin-bottom: 0.35rem;
 }
 
 /* ══════════════════════════════════════
@@ -676,6 +791,101 @@ section {
 }
 
 /* ══════════════════════════════════════
+   CONTACT FORM
+   ══════════════════════════════════════ */
+.contact {
+  background: var(--cream);
+  padding-bottom: 2rem;
+}
+
+.contact + .booking {
+  padding-top: 2rem;
+}
+
+.contact .section-inner {
+  max-width: 640px;
+}
+
+.contact-form-wrap {
+  overflow: hidden;
+  transition: max-height 0.5s ease, opacity 0.4s ease;
+  max-height: 600px;
+}
+
+.contact-form-wrap.collapsed {
+  max-height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.contact-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.contact-field label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--text-mid);
+  margin-bottom: 0.4rem;
+}
+
+.contact-field label .optional {
+  color: var(--text-light);
+  font-weight: 300;
+}
+
+.contact-field input,
+.contact-field textarea {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  border: 1px solid var(--sand-light);
+  border-radius: 4px;
+  background: white;
+  color: var(--text);
+  transition: border-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+.contact-field input:focus,
+.contact-field textarea:focus {
+  outline: none;
+  border-color: var(--sage);
+}
+
+.contact-field textarea {
+  resize: vertical;
+}
+
+.contact-success {
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.contact-success p {
+  font-size: 1rem;
+  color: var(--sage-dark);
+  font-weight: 400;
+}
+
+@media (max-width: 600px) {
+  .contact-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ══════════════════════════════════════
    BOOKING CTA (soft, warm)
    ══════════════════════════════════════ */
 .booking {
@@ -746,6 +956,7 @@ footer {
   height: 32px;
   border-radius: 50%;
   object-fit: cover;
+  filter: brightness(0) opacity(0.7);
 }
 
 .footer-left span {
@@ -811,7 +1022,7 @@ footer {
 
   .philosophy-card-img { height: 200px; }
 
-  .service-item {
+  .service-header {
     grid-template-columns: 1fr;
     gap: 0.5rem;
     padding: 1.5rem 0;
@@ -847,6 +1058,12 @@ footer {
 </style>
 </head>
 <body>
+
+<!-- ═══════ LOGO SPLASH ═══════ -->
+<div id="splashBg"></div>
+<div id="splashLogo">
+  <img src="logo_transparent.png" alt="Sage Therapeutics">
+</div>
 
 <!-- ═══════ NAV ═══════ -->
 <nav id="nav">
@@ -893,9 +1110,8 @@ footer {
       <div class="about-text reveal" style="transition-delay: 0.15s;">
         <span class="section-label">About Sage</span>
         <h2 class="section-heading">Healing is <em>personal</em></h2>
-        <p>Every session at Sage begins with listening. Before any technique or modality, there's a conversation — about what your body is carrying, what you need relief from, and what healing looks like for you.</p>
-        <p>Liz Childress is a licensed massage therapist who founded Sage Therapeutics with a simple belief: that bodywork should be guided by intuition and care, not a timer. Her sessions blend therapeutic massage with modalities like cupping, gua sha, and aromatherapy — shaped entirely around what you need that day.</p>
-        <p>This isn't a spa assembly line. It's one person, one room, and the unhurried attention your body deserves.</p>
+        <p>Liz Childress, licensed massage therapist, started Sage Therapeutics with a simple approach: listen first, then let the body guide the work.</p>
+        <p>Her background is in therapeutic massage, cupping, gua sha, and aromatherapy, but what sets Sage apart is the approach. She won't dig straight into the spot that hurts. If your lower back is locked up, the session starts by softening the muscles around it first, your hips, your sides, everything connected, so by the time the work reaches the source, your body is actually ready to let go. It takes patience, but it's why people leave feeling different than they expected.</p>
         <div class="about-detail">
           <span>Licensed Massage Therapist</span>
           <span class="about-detail-dot"></span>
@@ -910,22 +1126,22 @@ footer {
 <section class="philosophy">
   <div class="section-inner">
     <span class="section-label reveal">How We Work</span>
-    <h2 class="section-heading reveal">More than just a <em>massage</em></h2>
+    <h2 class="section-heading reveal">What we <em>work with</em></h2>
     <div class="philosophy-grid">
       <div class="philosophy-card reveal">
         <img class="philosophy-card-img" src="04_cupping_therapy.jpg" alt="Cupping therapy session">
         <h3>Cupping Therapy</h3>
-        <p>An ancient practice using gentle suction to increase blood flow, ease muscle tension, and reduce inflammation. Deeply relaxing and surprisingly restorative.</p>
+        <p>Suction cups on the skin increase blood flow, relieve muscle tension, and reduce inflammation. Looks more intense than it feels.</p>
       </div>
       <div class="philosophy-card reveal" style="transition-delay: 0.12s;">
         <img class="philosophy-card-img" src="05_gua_sha.jpg" alt="Gua sha treatment">
         <h3>Gua Sha</h3>
-        <p>A traditional healing technique that works through layers of tension using smooth-edged tools. Promotes circulation, relieves deep muscle tightness, and leaves you feeling renewed.</p>
+        <p>A smooth-edged tool scraped along the skin to promote circulation, reduce inflammation, and relieve tension in the muscles.</p>
       </div>
       <div class="philosophy-card reveal" style="transition-delay: 0.24s;">
         <img class="philosophy-card-img" src="06_hot_stone.jpg" alt="Hot stone massage">
         <h3>Hot Stone Therapy</h3>
-        <p>Heated stones placed on key points melt through tension while the warmth penetrates deep into your muscles. Profoundly calming and effective for chronic tightness.</p>
+        <p>Heated stones promote deep relaxation and help release muscle tension. One of the most calming things you can do for your body.</p>
       </div>
     </div>
   </div>
@@ -935,76 +1151,138 @@ footer {
 <section class="services" id="services">
   <div class="section-inner">
     <span class="section-label reveal">Services &amp; Pricing</span>
-    <h2 class="section-heading reveal">Every session is <em>tailored to you</em></h2>
+    <h2 class="section-heading reveal">Built around <em>you</em></h2>
     <div class="services-list">
-      <div class="service-item reveal">
-        <div class="service-name">
-          Custom Therapeutic Massage
-          <small>Combines techniques based on your body's needs — deep tissue, Swedish, trigger point, and more</small>
+      <div class="service-item service-special reveal">
+        <div class="service-header">
+          <div class="service-name">
+            <span class="service-special-tag">Limited Time</span>
+            Spring Rejuvenation Special
+            <small>75-minute aromatherapy massage with hydrating eye treatment</small>
+          </div>
+          <span class="service-duration">75 min</span>
+          <span class="service-price">$110</span>
         </div>
-        <span class="service-duration">60 – 120 min</span>
-        <span class="service-price">from $100</span>
+        <div class="service-details">
+          <ul>
+            <li>Full-body aromatherapy massage using seasonal essential oils</li>
+            <li>Hydrating eye treatment to relieve tension and puffiness</li>
+            <li>A longer session at a special rate</li>
+          </ul>
+          <a href="#" class="service-book">Book this session</a>
+        </div>
       </div>
       <div class="service-item reveal">
-        <div class="service-name">
-          Massage with Cupping Therapy
-          <small>Therapeutic massage enhanced with cupping to target fascia and promote deep release</small>
+        <div class="service-header">
+          <div class="service-name">
+            Custom Therapeutic Massage
+            <small>Deep tissue, Swedish, trigger point, and more, combined based on what you need</small>
+          </div>
+          <span class="service-duration">60 – 120 min</span>
+          <span class="service-price">from $100</span>
         </div>
-        <span class="service-duration">60 – 120 min</span>
-        <span class="service-price">from $110</span>
+        <div class="service-details">
+          <ul>
+            <li>Techniques chosen and blended during the session based on your body</li>
+            <li>Can include deep tissue, Swedish, trigger point, myofascial release</li>
+            <li>Good for general tension, recovery, or chronic pain</li>
+          </ul>
+          <a href="#" class="service-book">Book this session</a>
+        </div>
       </div>
       <div class="service-item reveal">
-        <div class="service-name">
-          Massage with Gua Sha
-          <small>Bodywork paired with gua sha technique to address deep muscle tension and stiffness</small>
+        <div class="service-header">
+          <div class="service-name">
+            Massage with Cupping Therapy
+            <small>Massage plus cupping to get into the fascia and loosen what's stuck</small>
+          </div>
+          <span class="service-duration">60 – 120 min</span>
+          <span class="service-price">from $110</span>
         </div>
-        <span class="service-duration">60 – 120 min</span>
-        <span class="service-price">from $110</span>
+        <div class="service-details">
+          <ul>
+            <li>Suction cups placed on the skin to increase blood flow and relieve tension</li>
+            <li>Reduces inflammation and promotes relaxation</li>
+            <li>Combined with massage for a full session</li>
+          </ul>
+          <a href="#" class="service-book">Book this session</a>
+        </div>
       </div>
       <div class="service-item reveal">
-        <div class="service-name">
-          Hot Stone Massage
-          <small>Heated basalt stones combined with therapeutic massage for deep muscle relaxation</small>
+        <div class="service-header">
+          <div class="service-name">
+            Massage with Gua Sha
+            <small>Massage paired with gua sha for deep muscle tension and stiffness</small>
+          </div>
+          <span class="service-duration">60 – 120 min</span>
+          <span class="service-price">from $110</span>
         </div>
-        <span class="service-duration">60 – 120 min</span>
-        <span class="service-price">from $110</span>
+        <div class="service-details">
+          <ul>
+            <li>Smooth-edged tool scraped along the skin to promote circulation</li>
+            <li>Reduces inflammation and relieves deep muscle tension</li>
+            <li>Can also improve skin elasticity and appearance</li>
+          </ul>
+          <a href="#" class="service-book">Book this session</a>
+        </div>
       </div>
       <div class="service-item reveal">
-        <div class="service-name">
-          Prenatal Massage
-          <small>Gentle, targeted relief designed specifically for expectant mothers</small>
+        <div class="service-header">
+          <div class="service-name">
+            Hot Stone Massage
+            <small>Heated basalt stones combined with therapeutic massage for deep muscle relaxation</small>
+          </div>
+          <span class="service-duration">60 – 120 min</span>
+          <span class="service-price">from $110</span>
         </div>
-        <span class="service-duration">60 – 90 min</span>
-        <span class="service-price">from $100</span>
+        <div class="service-details">
+          <ul>
+            <li>Heated stones placed on key points to promote deep relaxation</li>
+            <li>Helps release muscle tension throughout the body</li>
+            <li>Paired with therapeutic massage in the same session</li>
+          </ul>
+          <a href="#" class="service-book">Book this session</a>
+        </div>
       </div>
       <div class="service-item reveal">
-        <div class="service-name">
-          Spring Rejuvenation Special
-          <small>75-minute aromatherapeutic massage with hydrating eye treatment — limited time</small>
+        <div class="service-header">
+          <div class="service-name">
+            Prenatal Massage
+            <small>Gentle, targeted relief for expectant mothers</small>
+          </div>
+          <span class="service-duration">60 – 90 min</span>
+          <span class="service-price">from $100</span>
         </div>
-        <span class="service-duration">75 min</span>
-        <span class="service-price">$110</span>
+        <div class="service-details">
+          <ul>
+            <li>Positioning and techniques adapted for each stage of pregnancy</li>
+            <li>Focused on lower back, hips, and areas that carry extra load</li>
+            <li>Safe, gentle, and tailored to what feels comfortable</li>
+          </ul>
+          <a href="#" class="service-book">Book this session</a>
+        </div>
       </div>
       <div class="service-item reveal">
-        <div class="service-name">
-          Group Chair Massage
-          <small>On-site chair massage for your workplace, event, or gathering</small>
+        <div class="service-header">
+          <div class="service-name">
+            Group Chair Massage
+            <small>On-site chair massage for your workplace, event, or gathering</small>
+          </div>
+          <span class="service-duration">1 – 4 hrs</span>
+          <span class="service-price">from $100</span>
         </div>
-        <span class="service-duration">1 – 4 hrs</span>
-        <span class="service-price">from $100</span>
+        <div class="service-details">
+          <ul>
+            <li>Liz comes to you with a portable massage chair</li>
+            <li>10-20 minute sessions per person, fully clothed</li>
+            <li>Great for corporate wellness, parties, or team events</li>
+          </ul>
+          <a href="#" class="service-book">Book this session</a>
+        </div>
       </div>
     </div>
   </div>
 </section>
-
-<!-- ═══════ IMAGE BREAK ═══════ -->
-<div class="image-break">
-  <div class="image-break-inner reveal">
-    <img src="03_custom_therapeutic.jpeg" alt="Therapeutic massage">
-    <img src="12_massage_oil_contact.jpeg" alt="Massage oils">
-    <img src="11_deep_tissue_back_massage.jpg" alt="Deep tissue massage">
-  </div>
-</div>
 
 <!-- ═══════ LOCATION ═══════ -->
 <section class="location" id="location">
@@ -1014,7 +1292,7 @@ footer {
         <span class="section-label reveal">Find Us</span>
         <h2 class="section-heading reveal">In the heart of <em>Old Colorado City</em></h2>
         <p class="location-text reveal">
-          Sage Therapeutics is tucked into the creative, historic neighborhood of Old Colorado City on West Colorado Avenue — surrounded by local shops, galleries, and good energy.
+          We're on West Colorado Ave in Old Colorado City, surrounded by local shops and galleries. Easy to find, easy to park.
         </p>
         <div class="location-address reveal">
           2611 W Colorado Ave, Studio B<br>
@@ -1027,7 +1305,7 @@ footer {
           <div class="hours-row"><span class="day">Tuesday</span><span class="time">10:00 am – 7:00 pm</span></div>
           <div class="hours-row"><span class="day">Thursday</span><span class="time">10:00 am – 7:00 pm</span></div>
         </div>
-        <p class="location-note reveal">Need a different day or time? Reach out — we'll do our best to make it work.</p>
+        <p class="location-note reveal">Need a different day or time? Just ask. We're flexible.</p>
       </div>
       <div class="location-right reveal" style="transition-delay: 0.15s;">
         <img class="location-img" src="01_hero_neck_massage.jpg" alt="Massage session at Sage Therapeutics">
@@ -1047,12 +1325,44 @@ footer {
   </div>
 </section>
 
+<!-- ═══════ CONTACT ═══════ -->
+<section class="contact" id="contact">
+  <div class="section-inner">
+    <span class="section-label reveal">Get in Touch</span>
+    <h2 class="section-heading reveal">Questions? Send us a note.</h2>
+    <div id="contactFormWrap" class="contact-form-wrap reveal">
+      <form id="contactForm" class="contact-form">
+        <div class="contact-row">
+          <div class="contact-field">
+            <label for="contactName">Name</label>
+            <input type="text" id="contactName" name="name" required>
+          </div>
+          <div class="contact-field">
+            <label for="contactEmail">Email</label>
+            <input type="email" id="contactEmail" name="email" required>
+          </div>
+        </div>
+        <div class="contact-field">
+          <label for="contactPhone">Phone <span class="optional">(optional)</span></label>
+          <input type="tel" id="contactPhone" name="phone">
+        </div>
+        <div class="contact-field">
+          <label for="contactMessage">Message</label>
+          <textarea id="contactMessage" name="message" rows="4" required></textarea>
+        </div>
+        <button type="submit" class="btn-book">Send Message</button>
+      </form>
+    </div>
+    <div id="contactSuccess" class="contact-success" style="display:none;">
+      <p>Thank you! Your message has been received. We'll get back to you soon.</p>
+    </div>
+  </div>
+</section>
+
 <!-- ═══════ BOOKING CTA ═══════ -->
 <section class="booking">
   <div class="section-inner">
-    <span class="section-label reveal">Ready?</span>
-    <h2 class="section-heading reveal">Come as you are</h2>
-    <p class="reveal">No pressure, no upsells — just a quiet room, skilled hands,<br>and the time your body's been asking for.</p>
+    <h2 class="section-heading reveal">Whenever you're ready</h2>
     <a href="https://www.relaxatsage.com/book-online" class="btn-book reveal" target="_blank">Book a Session</a>
   </div>
 </section>
@@ -1119,6 +1429,58 @@ footer {
 </script>
 
 <script>
+// ── Lock scroll until splash lands ──
+document.body.style.overflow = 'hidden';
+
+// ── Logo splash ──
+const splashBg = document.getElementById('splashBg');
+const splashLogo = document.getElementById('splashLogo');
+const splashImg = splashLogo.querySelector('img');
+const navLogoImg = document.querySelector('.nav-logo img');
+
+// Measure positions after layout
+const navRect = navLogoImg.getBoundingClientRect();
+const startSize = splashImg.getBoundingClientRect().width;
+const endSize = navRect.width || 44;
+
+const startX = window.innerWidth / 2;
+const startY = window.innerHeight / 2;
+const endX = navRect.left + navRect.width / 2;
+const endY = navRect.top + navRect.height / 2;
+
+const tx = endX - startX;
+const ty = endY - startY;
+const scale = endSize / startSize;
+
+// Green fades away while the logo is still breathing — world falls away around it
+splashBg.animate([
+  { opacity: 1 },
+  { opacity: 1, offset: 0.45 },
+  { opacity: 0 }
+], { duration: 4200, easing: 'cubic-bezier(0.4, 0, 0.2, 1)', fill: 'forwards' }
+).onfinish = () => splashBg.remove();
+
+// The logo breathes — slow asymmetric inhale, brief suspension at the top,
+// then a gentle exhale that lets it rise and drift away like smoke
+splashImg.animate([
+  // resting, slightly small
+  { transform: 'translate(0, -10px) scale(0.88)', offset: 0,    easing: 'cubic-bezier(0.2, 0, 0.4, 1)' },
+  // inhale — sinks down as it fills out
+  { transform: 'translate(0, 18px) scale(1.0)',   offset: 0.28, easing: 'cubic-bezier(0.3, 0, 0.5, 1)' },
+  // exhale — immediately floats up, lightens
+  { transform: 'translate(0, -30px) scale(0.55)', offset: 0.55, easing: 'cubic-bezier(0.3, 0, 0.2, 1)' },
+  // flies to the nav corner
+  { transform: `translate(${tx}px, ${ty}px) scale(${scale})`, offset: 1 }
+], {
+  duration: 2800,
+  fill: 'forwards'
+}).onfinish = () => {
+  navLogoImg.style.transition = 'none';
+  navLogoImg.style.opacity = '1';
+  splashLogo.remove();
+  document.body.style.overflow = '';
+};
+
 // ── Nav scroll behavior ──
 const nav = document.getElementById('nav');
 window.addEventListener('scroll', () => {
@@ -1133,6 +1495,26 @@ toggle.addEventListener('click', () => {
 });
 links.querySelectorAll('a').forEach(a => {
   a.addEventListener('click', () => links.classList.remove('open'));
+});
+
+// ── Contact form ──
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const wrap = document.getElementById('contactFormWrap');
+  const success = document.getElementById('contactSuccess');
+  wrap.classList.add('collapsed');
+  setTimeout(() => {
+    success.style.display = '';
+  }, 400);
+});
+
+// ── Service accordion ──
+document.querySelectorAll('.service-item').forEach(item => {
+  item.querySelector('.service-header').addEventListener('click', () => {
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.service-item.open').forEach(i => i.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
+  });
 });
 
 // ── Scroll reveal ──
